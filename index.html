@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo List - your time manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1 class="header__title">ToDo List</h1>
+      <input type="search" class="header__search text-input" placeholder="Поиск задач..">
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <form class="form" id="addNewTaskForm">
+        <input type="text" class="form__input text-input text-input--small" placeholder="Новая задача">
+        <input type="submit" value="Добавить" class="btn">
+      </form>
+      <h2 class="title">Список задач</h2>
+      <ul class="tasks">
+        <!-- <li class="tasks__item">
+          Сверстать шапку сайта
+          <input type="button" data-action="delete" class="tasks__btn" value="Удалить">
+        </li> -->
+      </ul>
+      <h2 class="title archive__title">Архив</h2>
+      <ul class="archive">
+        
+      </ul>
+    </div>
+  </main>
+  
+  <script src="script.js"></script>
+</body>
+</html>
