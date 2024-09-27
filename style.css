@@ -34,7 +34,7 @@ input:focus {
   outline: none;
 }
 
-input[type="button"], input[type="submit"] {
+input[type="button"], input[type="submit"], button[type="button"] {
   cursor: pointer;
 }
 
@@ -92,12 +92,27 @@ input[type="button"], input[type="submit"] {
   margin-top: 15px;
 }
 
+.archive-title-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button[type="button"]{
+  margin-top: 25px;
+  font-family: "LXGW WenKai TC", cursive;
+  border: 2px solid rgba(0, 0, 0, 20%);
+  border-radius: 5px;
+  font-size: 18px;
+}
+
 .tasks__item, .archive__item {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 15px;
+  padding: 15px 15px 20px;
 
   border: 0.5px solid #000;
   border-right-width: 1px;
@@ -116,6 +131,14 @@ input[type="button"], input[type="submit"] {
   display: flex;
   gap: 20px;
 }
+
+/* .tasks__item-date{
+  position: absolute;
+  bottom: 1px;
+  left: 5px;
+
+  font-size: 15px;
+} */
 
 .tasks__btn[data-action=delete]{
   background-color: #fcfcfc;

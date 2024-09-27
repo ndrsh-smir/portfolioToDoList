@@ -1,4 +1,5 @@
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let archive = JSON.parse(localStorage.getItem('archive')) || [];
 
 
 // Добавление новой задачи
@@ -6,6 +7,7 @@ let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const form = document.getElementById('addNewTaskForm');
 const newTaskInput = form.querySelector('input[type="text"');
 const tasksSelector = document.querySelector('.tasks');
+const archiveSelector = document.querySelector('.archive');
 
 form.addEventListener('submit', addNewTask);
 
@@ -39,6 +41,32 @@ function addNewTask(e){
     tasksSelector.append(newTask);
 }
 
+// Перемещение задачи в архив
+
+tasksSelector.addEventListener('click', doneTask);
+
+
+function addNewTaskToArchive(task){
+    const archiveLi = document.createElement('li');
+    archiveLi.classList.add('archive__item');
+    archiveLi.prepend(task);
+    return archiveLi;
+}
+
+
+function doneTask(e){
+    if (e.target.getAttribute('data-action') == 'done'){
+        let taskDone = tasks.indexOf(e.target.parentElement.parentElement.innerText);
+        tasks.splice(taskDone, 1);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        archive.push(e.target.parentElement.parentElement.innerText);
+        archiveSelector.append(addNewTaskToArchive(e.target.parentElement.parentElement.innerText));
+        localStorage.setItem('archive', JSON.stringify(archive));
+
+        e.target.parentElement.parentElement.remove();
+    }
+}
+
 
 // Удаление задач
 
@@ -48,12 +76,31 @@ tasksSelector.addEventListener('click', removeTask);
 function removeTask(e){
     if (e.target.getAttribute('data-action') == 'delete'){
         if (confirm('Удалить задачу?')){
-            let deletingTask = tasks.indexOf(e.target.parentElement.innerText);
+            let deletingTask = tasks.indexOf(e.target.parentElement.parentElement.innerText);
             tasks.splice(deletingTask, 1);
             localStorage.setItem('tasks', JSON.stringify(tasks));
 
 
             e.target.parentElement.parentElement.remove();
+        }
+    }
+}
+
+// Редактирование задачи
+
+tasksSelector.addEventListener('click', editTask);
+
+
+function editTask(e){
+    if (e.target.getAttribute('data-action') == 'edit'){
+        let editingTask = tasks.indexOf(e.target.parentElement.parentElement.innerText);
+        let editedTask = prompt(`Измените задачу "${tasks[editingTask]}"`);
+        if (tasks.includes(editedTask)){
+            alert('У вас уже есть такая задача');
+        } else {
+            tasks[editingTask] = editedTask;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            showTasksOnPage();
         }
     }
 }
@@ -75,15 +122,23 @@ function filterTasks() {
     });
 }
 
+// Очищение архива
+
+function clearArchive(){
+    archiveSelector.innerHTML = "";
+    archive = [];
+    localStorage.setItem('archive', archive);
+}
+
  
 // Сохранение задач
 
 function showTasksOnPage(){
     tasksSelector.innerHTML = "";
-    tasks.forEach(task => {
-    console.log(createTask(task));
-    tasksSelector.append(createTask(task));
-})
+    tasks.forEach(task => tasksSelector.append(createTask(task)));
+
+    archiveSelector.innerHTML = "";
+    archive.forEach(task => archiveSelector.append(addNewTaskToArchive(task)));
 }
 
 showTasksOnPage();
